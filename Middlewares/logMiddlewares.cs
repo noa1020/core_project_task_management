@@ -2,41 +2,40 @@ using System.Diagnostics;
 
 namespace todoList.Middlewares;
 
-public class logMiddleware
+public class MyLogMiddleware
 {
-    private RequestDelegate next;
-    private readonly string logFilePath;
+    private readonly RequestDelegate next;
+    private readonly ILogger logger;
 
 
-    public logMiddleware(RequestDelegate next, string logFilePath)
+    public MyLogMiddleware(RequestDelegate next, ILogger<MyLogMiddleware> logger)
     {
         this.next = next;
-        this.logFilePath = logFilePath;
+        this.logger = logger;
     }
 
     public async Task Invoke(HttpContext c)
     {
         var sw = new Stopwatch();
         sw.Start();
-        await next(c);
-        
-        WriteLogToFile($"{c.Request.Path}.{c.Request.Method} took {sw.ElapsedMilliseconds}ms."
-            + $" User: {c.User?.FindFirst("userId")?.Value ?? "unknown"}");     
-    }    
+        await next.Invoke(c);
+        WriteToFile($"{c.Request.Path}.{c.Request.Method} took {sw.ElapsedMilliseconds}ms."
+            + $" User: {c.User?.FindFirst("userId")?.Value ?? "unknown"}");
+    }
 
-    private void WriteLogToFile(string logMessage)
+    private void WriteToFile(string logMessage)
+    {
+        using(StreamWriter sw = File.AppendText("log.txt"))
         {
-            using (StreamWriter sw = File.AppendText(logFilePath))
-            {
-                sw.WriteLine(logMessage);
-            }
+            sw.WriteLine(logMessage);
         }
+    }
 }
 
-public static partial class MiddleExtensions
+public static partial class MiddlewareExtensions
 {
-    public static IApplicationBuilder UselogMiddleware(this IApplicationBuilder builder, string logFilePath)
+    public static IApplicationBuilder UseMyLogMiddleware(this IApplicationBuilder builder)
     {
-        return builder.UseMiddleware<logMiddleware>(logFilePath);
+        return builder.UseMiddleware<MyLogMiddleware>();
     }
 }

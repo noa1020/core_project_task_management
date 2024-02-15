@@ -16,11 +16,11 @@ builder.Services.AddTask();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 var app = builder.Build();
 
-var logFilePath = Path.Combine(AppContext.BaseDirectory, "file.log");
-app.UseMiddleware<logMiddleware>(logFilePath);
+app.UseMyLogMiddleware();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
