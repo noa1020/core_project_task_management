@@ -5,3 +5,5 @@ appsettings.Development.json
 appsettings.json
 obj/
 Properties/
+core-lesson-2.code-workspace
+todoList.csproj
