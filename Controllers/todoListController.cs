@@ -14,10 +14,10 @@ public class todoListController : ControllerBase
         this.todolistService = todolistService;
     }
     [HttpGet]
-        public ActionResult<List<task>> GetAll() =>
+        public ActionResult<List<todoList.Models.Task>> GetAll() =>
             todolistService.GetAll();
     [HttpGet("{id}")]
-    public ActionResult<task> GetById(int id)
+    public ActionResult<todoList.Models.Task> GetById(int id)
     {
         var Task = todolistService.GetById(id);
         if (Task == null)
@@ -26,14 +26,14 @@ public class todoListController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(task newTask)
+    public IActionResult Create(todoList.Models.Task newTask)
     {
         todolistService.Add(newTask);
         return CreatedAtAction(nameof(Create), new {id = newTask.Id}, newTask);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id,task newTask)
+    public IActionResult Update(int id, todoList.Models.Task newTask)
     {
         if(id != newTask.Id)
             return BadRequest();

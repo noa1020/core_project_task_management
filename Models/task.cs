@@ -1,8 +1,9 @@
-namespace todoList.Models;
-
-public class task
+namespace todoList.Models
+{
+public class Task
 {
     public int Id { get; set;}
-    public string ?name { get; set;}
+    public string? name { get; set;}
     public bool IsDone {get; set;}
+}
 }

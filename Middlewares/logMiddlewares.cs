@@ -19,8 +19,10 @@ public class MyLogMiddleware
         var sw = new Stopwatch();
         sw.Start();
         await next.Invoke(c);
-        WriteToFile($"{c.Request.Path}.{c.Request.Method} took {sw.ElapsedMilliseconds}ms."
-            + $" User: {c.User?.FindFirst("userId")?.Value ?? "unknown"}");
+        WriteToFile($" date: {DateTime.Now.ToShortDateString()}, beginning time: {DateTime.Now.TimeOfDay}, controller name: {c.Request.Path}, action: {c.Request.Method},"
+         + $" user name: {c.User?.FindFirst("userId")?.Value ?? "unconnected"},"
+          +$" duration: {sw.ElapsedMilliseconds}ms.");
+
     }
 
     private void WriteToFile(string logMessage)

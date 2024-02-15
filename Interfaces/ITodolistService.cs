@@ -5,12 +5,12 @@ namespace todoList.Interfaces
 {
     public interface ITodolistService
     {
-        List<task> GetAll();
+        List<Models.Task> GetAll();
        // int Count ();
         bool Delete(int id);
-         bool Update(int id, task newTask);
-        task GetById(int id) ;
-        int Add(task newTask);
+         bool Update(int id, Models.Task newTask);
+        Models.Task GetById(int id) ;
+        int Add(Models.Task newTask);
     
        }
 }

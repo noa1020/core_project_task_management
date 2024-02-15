@@ -14,7 +14,7 @@ namespace todoList.Services;
 
 public  class todoListServices:ITodolistService
 {
-    private  List<task> tasks;
+    private  List<Models.Task> tasks;
     private string fileName ;
 
         public todoListServices(/*IWebHostEnvinronment webHost*/)
@@ -23,7 +23,7 @@ public  class todoListServices:ITodolistService
 
             using (var jsonFile = File.OpenText(fileName))
             {
-                tasks = JsonSerializer.Deserialize <List<task> >(jsonFile.ReadToEnd(),
+            tasks = JsonSerializer.Deserialize <List<Models.Task>>(jsonFile.ReadToEnd(),
                 new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
@@ -38,14 +38,14 @@ public  class todoListServices:ITodolistService
 
 
 
-    public  List<task> GetAll() => tasks;
+    public  List<Models.Task> GetAll() => tasks;
 
-    public  task GetById(int id) 
+    public Models.Task GetById(int id) 
     {
         return tasks.FirstOrDefault(t => t.Id == id);
     }
 
-    public  int Add(task newTask)
+    public  int Add(Models.Task newTask)
     {
         if (tasks.Count == 0)
 
@@ -64,7 +64,7 @@ public  class todoListServices:ITodolistService
         return newTask.Id;
     }
   
-    public  bool Update(int id, task newTask)
+    public  bool Update(int id, Models.Task newTask)
     {
         if (id != newTask.Id)
             return false;
