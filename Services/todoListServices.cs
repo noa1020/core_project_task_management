@@ -42,7 +42,7 @@ public  class todoListServices:ITodolistService
 
     public Models.Task GetById(int id) 
     {
-        return tasks.FirstOrDefault(t => t.Id == id);
+        return tasks?.FirstOrDefault(t => t?.Id == id ) ;
     }
 
     public  int Add(Models.Task newTask)
