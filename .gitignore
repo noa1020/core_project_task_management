@@ -7,3 +7,4 @@ appsettings.Development.json
 appsettings.json
 core-lesson-2.code-workspace
 todoList.csproj
+.editorconfig
