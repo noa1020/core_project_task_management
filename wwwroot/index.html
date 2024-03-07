@@ -82,12 +82,16 @@
         <input id="signInPassword" type="password" placeholder="Enter Password" required><br>
         <button id="submitSignIn" type="submit">Sign In</button><br>
     </form>
-    <button class="google-btn">Connect with Google</button>
+    <button class="google-btn" onclick="connectWithGoogle()">Connect with Google</button>
     <button id="postmanButton">Open Postman</button>
 
 </div>
 
 <script>
+        function connectWithGoogle() {
+        window.location.href = "https://accounts.google.com";
+    }
+
     const postmanButton = document.getElementById("postmanButton");
     
     postmanButton.addEventListener("click", function() {
@@ -96,14 +100,11 @@
 
     const uri = '/todoList';
     document.getElementById("submitSignIn").addEventListener("click", function() {
-        fetch(uri)
-        .then(response => response.json())
-        .then(data => 
-        data.array.forEach(element => element.ID===document.getElementById("signInID") && element.password===ocument.getElementById("signInPassword")?
-       alert("fds"):alert("noooo")
-        ))
-        .catch(error => console.error('It is not possible to log in at the moment.', error));
-    });
+
+        
+
+        })
+    
 </script>
 
 </body>

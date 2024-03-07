@@ -16,15 +16,19 @@ public class todoListController : ControllerBase
     }
     [HttpGet]
     [Authorize(Policy = "User")]
-    public ActionResult<List<todoList.Models.Task>> GetAll() =>
-            todolistService.GetAll();
+    public ActionResult<List<todoList.Models.Task>> GetAll()
+    {
+        var id = User.FindFirst("id").Value;
+        return todolistService.GetAll(Convert.ToInt32(id));
+    }
+
 
     [HttpGet("{id}")]
     [Authorize(Policy = "User")]
-
     public ActionResult<todoList.Models.Task> GetById(int id)
     {
-        var Task = todolistService.GetById(id);
+        var userID = User.FindFirst("id").Value;
+        var Task = todolistService.GetById(id, Convert.ToInt32(userID));
         if (Task == null)
             return NotFound();
         return Task;
@@ -34,6 +38,8 @@ public class todoListController : ControllerBase
     [Authorize(Policy = "User")]
     public IActionResult Create(todoList.Models.Task newTask)
     {
+        var userID = User.FindFirst("id").Value;
+        newTask.userID = Convert.ToInt32(userID);
         todolistService.Add(newTask);
         return CreatedAtAction(nameof(Create), new { id = newTask.Id }, newTask);
     }
@@ -45,12 +51,13 @@ public class todoListController : ControllerBase
     {
         if (id != newTask.Id)
             return BadRequest();
-
-        var existingTodoList = todolistService.GetById(id);
+        var userID = User.FindFirst("id").Value;
+        var existingTodoList = todolistService.GetById(id,Convert.ToInt32(userID));
         if (existingTodoList is null)
         {
             return NotFound();
         }
+        newTask.userID=Convert.ToInt32(userID);
         todolistService.Update(newTask.Id, newTask);
         return NoContent();
     }
@@ -60,7 +67,8 @@ public class todoListController : ControllerBase
 
     public IActionResult Delete(int id)
     {
-        var Task = todolistService.GetById(id);
+        var userID = User.FindFirst("id").Value;
+        var Task = todolistService.GetById(id,Convert.ToInt32(userID));
         if (Task is null)
             return NotFound();
 

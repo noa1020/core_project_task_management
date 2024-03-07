@@ -10,7 +10,7 @@ namespace todoList.Interfaces
          bool Update(int id, Models.User newUser);
         Models.User GetById(int id) ;
         int Add(Models.User newUser);
-        public Boolean Authentication(string name,string Password);
+        public int Authentication(string name,string Password);
 
        }
 }

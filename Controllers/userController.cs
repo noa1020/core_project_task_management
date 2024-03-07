@@ -27,16 +27,19 @@ public class userController : ControllerBase
             var claims = new List<Claim>
             {
                 new Claim("type", "Admin"),
+                new Claim("id","1"),
             };
 
             var token = TokenService.GetToken(claims);
 
             return new OkObjectResult(TokenService.WriteToken(token));
         }
-        if (userService.Authentication(name,Password)){
+        int userId=userService.Authentication(name,Password);
+        if ( userId!=null){
             var claims = new List<Claim>
             {
-                new Claim("type", "user"),
+                new Claim("type", "User"),
+                new Claim("id", userId.ToString()),
             };
             var token = TokenService.GetToken(claims);
             return new OkObjectResult(TokenService.WriteToken(token));
