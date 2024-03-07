@@ -11,6 +11,6 @@ namespace todoList.Interfaces
          bool Update(int id, Models.Task newTask);
         Models.Task GetById(int id) ;
         int Add(Models.Task newTask);
-    
+        void DeleteByUserId(int userID);
        }
 }

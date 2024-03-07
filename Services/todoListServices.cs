@@ -98,9 +98,10 @@ public  class todoListServices:ITodolistService
         tasks.RemoveAt(index);
         saveToFile();
         return true;
-    }  
-
-
+    } 
+    public void DeleteByUserId(int userID){
+    tasks.RemoveAll(task => task.userID == userID);
+    }
 
 }
 public static class TaskUtils

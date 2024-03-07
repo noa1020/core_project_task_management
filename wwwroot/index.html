@@ -49,10 +49,28 @@
         border-radius: 5px;
         text-align: center;
         cursor: pointer;
+        
     }
     .google-btn:hover {
         background-color: #c1351d;
     }
+    #postmanButton {
+        margin: 10px 0;
+        background-color: orange;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+
+    }
+
+    #postmanButton:hover {
+        background-color: darkorange;
+    }
+
 </style>
 </head>
 <body>
@@ -63,31 +81,20 @@
         <input id="signInID" type="text" placeholder="Enter ID" maxlength="9"  pattern="[0-9]*"  required><br>
         <input id="signInPassword" type="password" placeholder="Enter Password" required><br>
         <button id="submitSignIn" type="submit">Sign In</button><br>
-        <h4>Opening a new account <a href="#" id="signUpLink">Sign Up</a></h4>
-    </form>
-    <form id="signupForm"  method="post" style="display: none;">
-        <h1 >Sign Up</h1>
-        <input type="text" placeholder="Enter ID" maxlength="9" pattern="\\d{9}" required><br>
-        <input type="text" placeholder="Enter Username" required><br>
-        <input type="password" placeholder="Enter Password" required><br>
-        <button id="submitSignUp" type="submit" >Sign Up</button><br>
-        <h4>Already have an account? <a href="#" id="signInLink">Sign In</a></h4>
     </form>
     <button class="google-btn">Connect with Google</button>
+    <button id="postmanButton">Open Postman</button>
+
 </div>
 
 <script>
+    const postmanButton = document.getElementById("postmanButton");
+    
+    postmanButton.addEventListener("click", function() {
+        window.open('postman://app', '_blank');
+    });
+
     const uri = '/todoList';
-    document.getElementById("signInLink").addEventListener("click", function() {
-        document.getElementById("signupForm").style.display = "none";
-        document.getElementById("loginForm").style.display = "block";
-
-    });
-
-    document.getElementById("signUpLink").addEventListener("click", function() {
-        document.getElementById("signupForm").style.display = "block";
-        document.getElementById("loginForm").style.display = "none";
-    });
     document.getElementById("submitSignIn").addEventListener("click", function() {
         fetch(uri)
         .then(response => response.json())

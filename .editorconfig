@@ -1,0 +1,7 @@
+[*.cs]
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = silent
+
+# IDE0022: Use block body for method
+csharp_style_expression_bodied_methods = false
