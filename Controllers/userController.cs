@@ -12,14 +12,14 @@ public class userController : ControllerBase
 {
     ITodolistService todolistService;
     IUserService userService;
-    public userController(IUserService userService ,ITodolistService todolistService)
+    public userController(IUserService userService, ITodolistService todolistService)
     {
         this.userService = userService;
-        this.todolistService=todolistService;
+        this.todolistService = todolistService;
     }
     [HttpPost]
     [Route("/login")]
-    public ActionResult<String> Login( string name,string Password)
+    public ActionResult<String> Login(string name, string Password)
     {
         if (name == "admin" && Password == "bbb")
         {
@@ -34,8 +34,9 @@ public class userController : ControllerBase
 
             return new OkObjectResult(TokenService.WriteToken(token));
         }
-        int userId=userService.Authentication(name,Password);
-        if ( userId!=null){
+        int userId = userService.Authentication(name, Password);
+        if (userId != null)
+        {
             var claims = new List<Claim>
             {
                 new Claim("type", "User"),
@@ -49,17 +50,21 @@ public class userController : ControllerBase
 
 
     [HttpGet]
+    [Route("/allUser")]
     [Authorize(Policy = "Admin")]
     public ActionResult<List<todoList.Models.User>> GetAll() =>
             userService.GetAll();
-    [HttpGet("{id}")]
+
+    [HttpGet]
+    [Route("/myUser")]
     [Authorize(Policy = "User")]
-    public ActionResult<todoList.Models.User> GetById(int id)
+    public ActionResult<todoList.Models.User> GetById()
     {
-        var User = userService.GetById(id);
-        if (User == null)
+        var userID = User.FindFirst("id").Value;
+        var myUser = userService.GetById(Convert.ToInt32(userID));
+        if (myUser == null)
             return NotFound();
-        return User;
+        return myUser;
     }
 
     [HttpPost]
@@ -70,10 +75,12 @@ public class userController : ControllerBase
         return CreatedAtAction(nameof(Create), new { id = newUser.Id }, newUser);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut]
     [Authorize(Policy = "User")]
-    public IActionResult Update(int id, todoList.Models.User newUser)
+    public IActionResult Update(todoList.Models.User newUser)
     {
+        var userID = User.FindFirst("id").Value;
+        int id = Convert.ToInt32(userID);
         if (id != newUser.Id)
             return BadRequest();
 
@@ -82,17 +89,20 @@ public class userController : ControllerBase
         {
             return NotFound();
         }
-        userService.Update(newUser.Id, newUser);
+        newUser.Id=id;
+        userService.Update(newUser);
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete]
     [Authorize(Policy = "Admin")]
 
-    public IActionResult Delete(int id)
+    public IActionResult Delete()
     {
-        var User = userService.GetById(id);
-        if (User is null)
+        var userID = User.FindFirst("id").Value;
+        int id=Convert.ToInt32(userID);
+        var user = userService.GetById(id);
+        if (user is null)
             return NotFound();
         userService.Delete(id);
         todolistService.DeleteByUserId(id);

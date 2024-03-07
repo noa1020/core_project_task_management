@@ -7,7 +7,7 @@ namespace todoList.Interfaces
     {
         List<Models.User> GetAll();
         bool Delete(int id);
-         bool Update(int id, Models.User newUser);
+         bool Update( Models.User newUser);
         Models.User GetById(int id) ;
         int Add(Models.User newUser);
         public int Authentication(string name,string Password);

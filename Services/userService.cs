@@ -58,12 +58,9 @@ public class userServices : IUserService
         return newUser.Id;
     }
 
-    public bool Update(int id, Models.User newUser)
+    public bool Update(Models.User newUser)
     {
-        if (id != newUser.Id)
-            return false;
-
-        var existingUser = GetById(id);
+        var existingUser = GetById(newUser.Id);
         if (existingUser == null)
             return false;
 
