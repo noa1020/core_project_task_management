@@ -42,16 +42,13 @@ public class userServices : IUserService
     public int Add(Models.User newUser)
     {
         if (Users.Count == 0)
-
         {
             newUser.Id = 1;
         }
         else
         {
             newUser.Id = Users.Max(t => t.Id) + 1;
-
         }
-
         Users.Add(newUser);
         saveToFile();
 
