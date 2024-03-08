@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using todoList.Models;
 using todoList.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
@@ -19,9 +18,9 @@ public class userController : ControllerBase
     }
     [HttpPost]
     [Route("/login")]
-    public ActionResult<String> Login(string name, string Password)
+    public ActionResult<String> Login(int id, string Password)
     {
-        if (name == "admin" && Password == "bbb")
+        if (id == 1 && Password == "bbb")
         {
 
             var claims = new List<Claim>
@@ -34,13 +33,13 @@ public class userController : ControllerBase
 
             return new OkObjectResult(TokenService.WriteToken(token));
         }
-        int userId = userService.Authentication(name, Password);
-        if (userId != null)
+        
+        if (userService.Authentication(id, Password))
         {
             var claims = new List<Claim>
             {
                 new Claim("type", "User"),
-                new Claim("id", userId.ToString()),
+                new Claim("id", id.ToString()),
             };
             var token = TokenService.GetToken(claims);
             return new OkObjectResult(TokenService.WriteToken(token));
@@ -94,13 +93,11 @@ public class userController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Policy = "Admin")]
 
-    public IActionResult Delete()
+    public IActionResult Delete(int id)
     {
-        var userID = User.FindFirst("id").Value;
-        int id=Convert.ToInt32(userID);
         var user = userService.GetById(id);
         if (user is null)
             return NotFound();

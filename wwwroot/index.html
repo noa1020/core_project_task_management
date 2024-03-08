@@ -2,76 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="css/login.css" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f0f0f0;
-    }
-    .container {
-        max-width: 400px;
-        margin: 100px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-        text-align: center;
-    }
-    input[type="text"],
-    input[type="password"],
-    button[type="submit"] {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    button[type="submit"] {
-        background-color: #007bff;
-        color: #fff;
-        cursor: pointer;
-    }
-    button[type="submit"]:hover {
-        background-color: #0056b3;
-    }
-    .google-btn {
-        width: 100%;
-        background-color: #db4437;
-        color: #fff;
-        border: none;
-        padding: 10px;
-        border-radius: 5px;
-        text-align: center;
-        cursor: pointer;
-        
-    }
-    .google-btn:hover {
-        background-color: #c1351d;
-    }
-    #postmanButton {
-        margin: 10px 0;
-        background-color: orange;
-        color: #fff;
-        border: none;
-        padding: 10px;
-        border-radius: 5px;
-        text-align: center;
-        cursor: pointer;
-        width: 100%;
-
-    }
-
-    #postmanButton:hover {
-        background-color: darkorange;
-    }
-
-</style>
 </head>
 <body>
 
@@ -80,32 +13,13 @@
         <h1 >Sign In</h1>
         <input id="signInID" type="text" placeholder="Enter ID" maxlength="9"  pattern="[0-9]*"  required><br>
         <input id="signInPassword" type="password" placeholder="Enter Password" required><br>
-        <button id="submitSignIn" type="submit">Sign In</button><br>
+        <button id="submitSignIn"  type="submit" onclick="login()">Sign In</button><br>
     </form>
     <button class="google-btn" onclick="connectWithGoogle()">Connect with Google</button>
     <button id="postmanButton">Open Postman</button>
 
 </div>
 
-<script>
-        function connectWithGoogle() {
-        window.location.href = "https://accounts.google.com";
-    }
-
-    const postmanButton = document.getElementById("postmanButton");
-    
-    postmanButton.addEventListener("click", function() {
-        window.open('postman://app', '_blank');
-    });
-
-    const uri = '/todoList';
-    document.getElementById("submitSignIn").addEventListener("click", function() {
-
-        
-
-        })
-    
-</script>
-
 </body>
+<script src="js/login.js" asp-append-version="true"></script>
 </html>
