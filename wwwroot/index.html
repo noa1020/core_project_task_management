@@ -9,17 +9,17 @@
 <body>
 
 <div class="container">
-    <form id="loginForm"  method="post">
+    <form id="loginForm" action="javascript:void(0);" method="post" onsubmit="login(); return false;">
         <h1 >Sign In</h1>
         <input id="signInID" type="text" placeholder="Enter ID" maxlength="9"  pattern="[0-9]*"  required><br>
         <input id="signInPassword" type="password" placeholder="Enter Password" required><br>
-        <button id="submitSignIn"  type="submit" onclick="login()">Sign In</button><br>
+        <button id="submitSignIn"  type="submit">Sign In</button><br>
     </form>
     <button class="google-btn" onclick="connectWithGoogle()">Connect with Google</button>
     <button id="postmanButton">Open Postman</button>
 
 </div>
+<script src="js/login.js" asp-append-version="true"></script>
 
 </body>
-<script src="js/login.js" asp-append-version="true"></script>
 </html>

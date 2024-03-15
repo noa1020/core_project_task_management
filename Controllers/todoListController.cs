@@ -7,18 +7,18 @@ namespace myTodoLists.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class todoListController : ControllerBase
+public class TodoListController(ITodolistService todolistService) : ControllerBase
 {
-    ITodolistService todolistService;
-    public todoListController(ITodolistService todolistService)
-    {
-        this.todolistService = todolistService;
-    }
+    readonly ITodolistService todolistService = todolistService;
+
     [HttpGet]
     [Authorize(Policy = "User")]
     public ActionResult<List<todoList.Models.Task>> GetAll()
     {
-        var id = User.FindFirst("id").Value;
+        var id = User.FindFirst("id")?.Value;
+        if (id is null)
+            return NotFound();
+
         return todolistService.GetAll(Convert.ToInt32(id));
     }
 
@@ -27,7 +27,9 @@ public class todoListController : ControllerBase
     [Authorize(Policy = "User")]
     public ActionResult<todoList.Models.Task> GetById(int id)
     {
-        var userID = User.FindFirst("id").Value;
+        var userID = User.FindFirst("id")?.Value;
+        if (userID is null)
+            return NotFound();
         var Task = todolistService.GetById(id, Convert.ToInt32(userID));
         if (Task == null)
             return NotFound();
@@ -38,7 +40,9 @@ public class todoListController : ControllerBase
     [Authorize(Policy = "User")]
     public IActionResult Create(todoList.Models.Task newTask)
     {
-        var userID = User.FindFirst("id").Value;
+        var userID = User.FindFirst("id")?.Value;
+        if (userID is null)
+            return NotFound();
         newTask.userID = Convert.ToInt32(userID);
         todolistService.Add(newTask);
         return CreatedAtAction(nameof(Create), new { id = newTask.Id }, newTask);
@@ -51,9 +55,11 @@ public class todoListController : ControllerBase
     {
         if (id != newTask.Id)
             return BadRequest();
-        var userID = User.FindFirst("id").Value;
-        var existingTodoList = todolistService.GetById(id,Convert.ToInt32(userID));
-        if (existingTodoList is null)
+        var userID = User.FindFirst("id")?.Value;
+        if (userID is null)
+            return NotFound();
+        var currentTask = todolistService.GetById(id,Convert.ToInt32(userID));
+        if (currentTask is null)
         {
             return NotFound();
         }
@@ -67,7 +73,9 @@ public class todoListController : ControllerBase
 
     public IActionResult Delete(int id)
     {
-        var userID = User.FindFirst("id").Value;
+        var userID = User.FindFirst("id")?.Value;
+        if (userID is null)
+            return NotFound();
         var Task = todolistService.GetById(id,Convert.ToInt32(userID));
         if (Task is null)
             return NotFound();

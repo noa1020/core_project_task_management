@@ -15,14 +15,12 @@ public class userServices : IUserService
     {
         this.fileName = Path.Combine(/*webHost.ContentRootPath*/ "Data", "user.json");
 
-        using (var jsonFile = File.OpenText(fileName))
-        {
-            Users = JsonSerializer.Deserialize<List<Models.User>>(jsonFile.ReadToEnd(),
-                new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-        }
+        using var jsonFile = File.OpenText(fileName);
+        Users = JsonSerializer.Deserialize<List<Models.User>>(jsonFile.ReadToEnd(),
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
     }
 
     private void saveToFile()
@@ -34,7 +32,7 @@ public class userServices : IUserService
 
     public List<Models.User> GetAll() => Users;
 
-    public Models.User GetById(int id)
+    public Models.User? GetById(int id)
     {
         return Users.FirstOrDefault(t => t.Id == id);
     }

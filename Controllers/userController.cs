@@ -7,23 +7,20 @@ using todoList.Models;
 namespace myTodoLists.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class userController : ControllerBase
+[Route("/user")]
+public class UserController(IUserService userService, ITodolistService todolistService) : ControllerBase
 {
-    ITodolistService todolistService;
-    IUserService userService;
-    public userController(IUserService userService, ITodolistService todolistService)
-    {
-        this.userService = userService;
-        this.todolistService = todolistService;
-    }
-
+    readonly ITodolistService todolistService = todolistService;
+    readonly IUserService userService = userService;
     [HttpPost]
     [Route("/login")]
-    public ActionResult<String> Login(int id, string Password)
+    public ActionResult<String> Login(int id, string password)
     {
-        if (id == 1 && Password == "bbb")
+        System.Console.WriteLine(id);
+        System.Console.WriteLine(password);
+        if (id == 1 && password == "bbb")
         {
+            System.Console.WriteLine(id);
             var claims = new List<Claim>
             {
                 new Claim("type", "Admin"),
@@ -32,8 +29,7 @@ public class userController : ControllerBase
             var token = TokenService.GetToken(claims);
             return new OkObjectResult(TokenService.WriteToken(token));
         }
-
-        if (userService.Authentication(id, Password))
+        if (userService.Authentication(id, password))
         {
             var claims = new List<Claim>
             {
@@ -58,7 +54,9 @@ public class userController : ControllerBase
     [Authorize(Policy = "User")]
     public ActionResult<todoList.Models.User> GetById()
     {
-        var userID = User.FindFirst("id").Value;
+        var userID = User.FindFirst("id")?.Value;
+        if (userID is null)
+            return NotFound();
         var myUser = userService.GetById(Convert.ToInt32(userID));
         if (myUser == null)
             return NotFound();
@@ -85,9 +83,11 @@ public class userController : ControllerBase
         {
             return BadRequest("User object is null");
         }
-        var userID = User.FindFirst("id").Value;
+        var userID = User.FindFirst("id")?.Value;
+        if (userID is null)
+            return NotFound();
         int id = Convert.ToInt32(userID);
-        User user = userService.GetById(id);
+        User? user = userService.GetById(id);
         if (user is null)
         {
             return NotFound("User not found");

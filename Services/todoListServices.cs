@@ -12,31 +12,27 @@ using todoList.Services;
 
 namespace todoList.Services;
 
-public class todoListServices : ITodolistService
+public class TodoListServices : ITodolistService
 {
     private List<Models.Task> tasks;
-    private string fileName;
+    private readonly string fileName;
 
-    public todoListServices(/*IWebHostEnvinronment webHost*/)
+    public TodoListServices(/*IWebHostEnvinronment webHost*/)
     {
         this.fileName = Path.Combine(/*webHost.ContentRootPath*/ "Data", "todoList.json");
 
-        using (var jsonFile = File.OpenText(fileName))
-        {
-            tasks = JsonSerializer.Deserialize<List<Models.Task>>(jsonFile.ReadToEnd(),
-                new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-        }
+        using var jsonFile = File.OpenText(fileName);
+        tasks = JsonSerializer.Deserialize<List<Models.Task>>(jsonFile.ReadToEnd(),
+            new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
     }
 
     private void saveToFile()
     {
         File.WriteAllText(fileName, JsonSerializer.Serialize(tasks));
     }
-
-
 
     public List<Models.Task> GetAll(int userID)
     {
@@ -46,11 +42,11 @@ public class todoListServices : ITodolistService
             return tasks.FindAll(task=>task.userID==userID);
         }
     }
-    public Models.Task GetById(int id)
+    public Models.Task? GetById(int id)
     {
         return tasks?.FirstOrDefault(t => t?.Id == id);
     }
-    public Models.Task GetById(int id,int userID)
+    public Models.Task? GetById(int id,int userID)
     {
         return tasks?.FirstOrDefault(t => t?.Id == id&&t.userID==userID);
     }
@@ -119,6 +115,6 @@ public static class TaskUtils
 {
     public static void AddTask(this IServiceCollection services)
     {
-        services.AddSingleton<ITodolistService, todoListServices>();
+        services.AddSingleton<ITodolistService, TodoListServices>();
     }
 }

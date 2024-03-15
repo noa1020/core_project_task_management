@@ -9,18 +9,19 @@ postmanButton.addEventListener("click", function() {
 });
 
 function login() {
-    const id = document.getElementById("signInID").value;
-    const password = document.getElementById("signInPassword").value;
-    
-    fetch('todoList/login', {
+    const id = document.getElementById("signInID").value.trim()
+    const password = document.getElementById("signInPassword").value.trim();
+    const uri = '/login';
+
+    fetch(uri, {
         method: 'POST',
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: id, Password: password }) 
+            },
+        body: JSON.stringify({ id: id, password:password})
     })
     .then(response => {
-        alert(1);
         if (response.ok) {
             return response.json(); 
         } else if (response.status === 401) {
@@ -31,8 +32,8 @@ function login() {
     })
     .then(data => {
         // Handle the token received after successful login
-        console.log('Authentication token: ', data.token);
-        window.location.href = "http://localhost:5130/tasks.html";
+        alert('Authentication token: ', data.token);
+        window.location.href = "https://localhost:5130/tasks.html";
     })
     .catch(error => {
         console.error('Error during login:', error);
