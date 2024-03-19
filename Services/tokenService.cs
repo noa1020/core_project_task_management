@@ -1,18 +1,14 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-namespace todoList.Services
-{
-    public static class TokenService
-    {
+namespace todoList.Services;
 
-    private static SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SXkSqsKyNUyvGbnHs7ke2NCq8zQzNLW7mPmHbnZZ"));
+public static class TokenService
+{
+
+    private static readonly SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SXkSqsKyNUyvGbnHs7ke2NCq8zQzNLW7mPmHbnZZ"));
     private static readonly string issuer = "https://todoList.com";
     public static SecurityToken GetToken(List<Claim> claims) =>
         new JwtSecurityToken(
@@ -36,4 +32,3 @@ namespace todoList.Services
         new JwtSecurityTokenHandler().WriteToken(token);
 }
 
-}

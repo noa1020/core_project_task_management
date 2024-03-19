@@ -18,7 +18,6 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
         var id = User.FindFirst("id")?.Value;
         if (id is null)
             return NotFound();
-
         return todolistService.GetAll(Convert.ToInt32(id));
     }
 

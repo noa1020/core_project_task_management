@@ -85,10 +85,8 @@ public class userServices : IUserService
         saveToFile();
         return true;
     }
-    public Boolean Authentication(int id,string Password){
-        if(Users.FirstOrDefault(t => t.Id == id&&t.Password==Password)==default)
-            return false;
-        return true;
+    public User Authentication(string name,string Password){
+        return Users.FirstOrDefault(t => t.Username == name && t.Password == Password);
 
     }
 

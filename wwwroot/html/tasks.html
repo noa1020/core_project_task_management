@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>todoList</title>
-    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="../css/tasks.css" />
 </head>
 
 <body>
-    <h1>TO DO LIST</h1>
+    <h1>To-do list</h1>
+    <h3>Add</h3>
     <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
-        <input type="text" id="add-name" placeholder="New Task">
+        <input type="text" id="add-name" placeholder="New task">
         <input type="submit" value="Add">
     </form>
-
     <div id="editForm">
         <h3>Edit</h3>
         <form action="javascript:void(0);" onsubmit="updateItem()">
@@ -21,12 +21,10 @@
             <input type="checkbox" id="edit-isDone">
             <input type="text" id="edit-name">
             <input type="submit" value="Save">
-            <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+            <a onclick="closeInput()" aria-label="Close">✖</a>
         </form>
     </div>
-
     <p id="counter"></p>
-
     <table>
         <tr>
             <th>Is Done?</th>
@@ -36,11 +34,24 @@
         </tr>
         <tbody id="tasks"></tbody>
     </table>
-
-    <script src="js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript">
-        getItems();
-    </script>
+    <a href="./management.html"><button type="submit" id="managementButton">Management</button></a>
+    
+    <button id="editDetailsButton">Edit Personal Details</button>
+    
+    <div id="editDetailsPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <form>
+                <label for="username">Username:</label>
+                <input type="text" id="updateName">
+                <label for="password">Password:</label>
+                <input type="text" id="updatePassword">
+                <button onclick="saveDetails()">Save</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="../js/tasks.js" asp-append-version="true"></script>
 </body>
 
 </html>

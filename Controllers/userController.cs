@@ -7,20 +7,17 @@ using todoList.Models;
 namespace myTodoLists.Controllers;
 
 [ApiController]
-[Route("/user")]
+[Route("[controller]")]
 public class UserController(IUserService userService, ITodolistService todolistService) : ControllerBase
 {
     readonly ITodolistService todolistService = todolistService;
     readonly IUserService userService = userService;
     [HttpPost]
     [Route("/login")]
-    public ActionResult<String> Login(int id, string password)
+    public ActionResult<String> Login(string name, string password)
     {
-        System.Console.WriteLine(id);
-        System.Console.WriteLine(password);
-        if (id == 1 && password == "bbb")
+        if (name == "admin" && password == "1234")
         {
-            System.Console.WriteLine(id);
             var claims = new List<Claim>
             {
                 new Claim("type", "Admin"),
@@ -29,12 +26,13 @@ public class UserController(IUserService userService, ITodolistService todolistS
             var token = TokenService.GetToken(claims);
             return new OkObjectResult(TokenService.WriteToken(token));
         }
-        if (userService.Authentication(id, password))
+        User user = userService.Authentication(name, password);
+        if (user != default)
         {
             var claims = new List<Claim>
             {
                 new Claim("type", "User"),
-                new Claim("id", id.ToString()),
+                new Claim("id", user.Id.ToString()),
             };
             var token = TokenService.GetToken(claims);
             return new OkObjectResult(TokenService.WriteToken(token));
@@ -43,7 +41,7 @@ public class UserController(IUserService userService, ITodolistService todolistS
     }
 
     [HttpGet]
-    [Route("/allUser")]
+    [Route("/allUsers")]
     [Authorize(Policy = "Admin")]
     public ActionResult<List<todoList.Models.User>> GetAll() =>
             userService.GetAll();

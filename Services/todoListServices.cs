@@ -36,11 +36,7 @@ public class TodoListServices : ITodolistService
 
     public List<Models.Task> GetAll(int userID)
     {
-        if (userID == 1)
-            return tasks;
-        else{
             return tasks.FindAll(task=>task.userID==userID);
-        }
     }
     public Models.Task? GetById(int id)
     {
