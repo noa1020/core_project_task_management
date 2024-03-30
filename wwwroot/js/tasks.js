@@ -1,6 +1,5 @@
 const uri = '/todoList';
 let tasks = [];
-const urlParams = new URLSearchParams(window.location.search);
 const token = localStorage.getItem('token');
 
 //Fetches items from the server
@@ -19,13 +18,13 @@ function getItems() {
         return response.json();
     }).then(data => _displayItems(data))
         .then(isManager())
-        .catch(error => console.error('Unable to get items.', error));
+        .catch(error => alert('Unable to get items.', error));
 }
 // Initial call to fetch items
 getItems();
 
-function LoadingUserDetails(){
-    fetch('/myUser',{
+function LoadingUserDetails() {
+    fetch('/myUser', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -38,7 +37,7 @@ function LoadingUserDetails(){
         }
         return response.json();
     }).then(data => _displayUser(data))
-        .catch(error => console.error('Unable to get user information.', error));
+        .catch(error => alert('Unable to get user information.', error));
 
 
 }
@@ -63,7 +62,7 @@ function addItem() {
         .then(() => {
             getItems();
             addNameTextbox.value = '';
-        }).catch(error => console.error('Unable to add item.', error));
+        }).catch(error => alert('Unable to add item.', error));
 }
 
 /** Deletes an item from the todo list
@@ -78,7 +77,7 @@ function deleteItem(id) {
             'Authorization': token
         },
     }).then(() => getItems())
-        .catch(error => console.error('Unable to delete item.', error));
+        .catch(error => alert('Unable to delete item.', error));
 }
 
 /** Displays an edit form for a specific item
@@ -88,7 +87,7 @@ function displayEditForm(id) {
     const item = tasks.find(item => item.id === id);
     document.getElementById('edit-name').value = item.name;
     document.getElementById('edit-id').value = item.id;
-    document.getElementById('edit-isDone').checked = item.isDone==true;
+    document.getElementById('edit-isDone').checked = item.isDone == true;
     document.getElementById('editForm').style.display = 'block';
 }
 
@@ -112,7 +111,7 @@ function updateItem() {
         body: JSON.stringify(item)
     })
         .then(() => getItems())
-        .catch(error => console.error('Unable to update item.', error));
+        .catch(error => alert('Unable to update item.', error));
     closeInput();
     return false;
 }
@@ -165,28 +164,34 @@ function _displayItems(data) {
     tasks = data;
 }
 
+//Function to check if the user is a manager and display management button if user id is '1'.
 function isManager() {
     const tokenParts = token.split('.');
     const userId = JSON.parse(atob(tokenParts[1])).id;
-    if (userId === '1')
+    if (userId === '1') {
         document.getElementById('managementButton').style.display = 'block';
+    }
 }
 
-const updateName=document.getElementById("updateName");
-const updatePassword=document.getElementById("updatePassword");
-function _displayUser(user){
-    updateName.value=user.username;
-    updatePassword.value=user.password;
-
+/** Function to display user details in the update form.
+ * @param {Object} user - User object containing username and password.
+*/
+function _displayUser(user) {
+    updateName.value = user.username;
+    updatePassword.value = user.password;
 }
-document.getElementById('editDetailsButton').addEventListener('click', function() {
+
+// Event listener to display edit details popup on button click.
+document.getElementById('editDetailsButton').addEventListener('click', function () {
     document.getElementById('editDetailsPopup').style.display = 'block';
 });
 
+// Function to close the edit details popup.
 function closePopup() {
     document.getElementById('editDetailsPopup').style.display = 'none';
 }
 
+// Function to save user details by sending PUT request to server.
 function saveDetails() {
     const item = {
         password: updatePassword.value.trim(),
@@ -203,6 +208,6 @@ function saveDetails() {
     }).then(response => response.json())
         .then(() => {
             _displayUser();
-        }).catch(error => console.error('Unable to change user details.', error));
+        }).catch(error => alert('Unable to change user details.', error));
     closePopup();
 }

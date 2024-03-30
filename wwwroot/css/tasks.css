@@ -80,6 +80,7 @@ th {
     background-color: #4CAF50;
     color: white;
 }
+
 .popup {
     display: none;
     position: fixed;
@@ -113,6 +114,7 @@ th {
     text-decoration: none;
     cursor: pointer;
 }
+
 button {
     background-color: #4CAF50;
     color: white;

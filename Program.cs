@@ -1,6 +1,7 @@
 using todoList.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using todoList.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +71,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMyLogMiddleware();
 app.UseEndpoints(endpoints =>
 {
     _ = endpoints.MapControllers();

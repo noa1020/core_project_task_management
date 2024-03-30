@@ -4,6 +4,7 @@ body {
     padding: 0;
     background-color: #f0f0f0;
 }
+
 .container {
     max-width: 400px;
     margin: 100px auto;
@@ -12,9 +13,11 @@ body {
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 h1 {
     text-align: center;
 }
+
 input[type="text"],
 input[type="password"],
 button[type="submit"] {
@@ -25,14 +28,17 @@ button[type="submit"] {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
 button[type="submit"] {
     background-color: #007bff;
     color: #fff;
     cursor: pointer;
 }
+
 button[type="submit"]:hover {
     background-color: #0056b3;
 }
+
 .google-btn {
     width: 100%;
     background-color: #db4437;
@@ -42,11 +48,13 @@ button[type="submit"]:hover {
     border-radius: 5px;
     text-align: center;
     cursor: pointer;
-    
+
 }
+
 .google-btn:hover {
     background-color: #c1351d;
 }
+
 #postmanButton {
     margin: 10px 0;
     background-color: orange;
@@ -63,4 +71,3 @@ button[type="submit"]:hover {
 #postmanButton:hover {
     background-color: darkorange;
 }
-

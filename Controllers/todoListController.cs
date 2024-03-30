@@ -57,12 +57,12 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
         var userID = User.FindFirst("id")?.Value;
         if (userID is null)
             return NotFound();
-        var currentTask = todolistService.GetById(id,Convert.ToInt32(userID));
+        var currentTask = todolistService.GetById(id, Convert.ToInt32(userID));
         if (currentTask is null)
         {
             return NotFound();
         }
-        newTask.userID=Convert.ToInt32(userID);
+        newTask.userID = Convert.ToInt32(userID);
         todolistService.Update(newTask.Id, newTask);
         return NoContent();
     }
@@ -75,7 +75,7 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
         var userID = User.FindFirst("id")?.Value;
         if (userID is null)
             return NotFound();
-        var Task = todolistService.GetById(id,Convert.ToInt32(userID));
+        var Task = todolistService.GetById(id, Convert.ToInt32(userID));
         if (Task is null)
             return NotFound();
 

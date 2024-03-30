@@ -118,3 +118,14 @@
  date: 03/07/2024, beginning time: 15:47:20.4574365, controller name: /swagger/swagger-ui-standalone-preset.js, action: GET, user name: unconnected, duration: 17ms.
  date: 03/07/2024, beginning time: 15:47:20.4630407, controller name: /swagger/swagger-ui-bundle.js, action: GET, user name: unconnected, duration: 22ms.
  date: 03/07/2024, beginning time: 15:47:20.5687788, controller name: /swagger/favicon-32x32.png, action: GET, user name: unconnected, duration: 0ms.
+ date: 03/30/2024, beginning time: 20:57:01.4926097, controller name: /favicon.ico, action: GET, user name: unconnected, duration: 6ms.
+ date: 03/30/2024, beginning time: 20:57:01.6294850, controller name: /myUser, action: GET, user name: unconnected, duration: 52ms.
+ date: 03/30/2024, beginning time: 20:57:01.6298572, controller name: /todoList, action: GET, user name: unconnected, duration: 52ms.
+ date: 03/30/2024, beginning time: 20:57:34.7617821, controller name: /favicon.ico, action: GET, user name: unconnected, duration: 0ms.
+ date: 03/30/2024, beginning time: 20:59:43.4587192, controller name: /login, action: POST, user name: unconnected, duration: 29ms.
+ date: 03/30/2024, beginning time: 21:47:45.4760786, controller name: /login, action: GET, user name: unconnected, duration: 0ms.
+ date: 03/30/2024, beginning time: 21:48:21.8171378, controller name: /login, action: GET, user name: unconnected, duration: 0ms.
+ date: 03/30/2024, beginning time: 21:49:00.2571680, controller name: /login, action: POST, user name: unconnected, duration: 1ms.
+ date: 03/30/2024, beginning time: 21:50:59.9321937, controller name: /login, action: POST, user name: unconnected, duration: 0ms.
+ date: 03/30/2024, beginning time: 21:55:39.0768253, controller name: /login, action: POST, user name: unconnected, duration: 0ms.
+ date: 03/30/2024, beginning time: 22:10:42.4514150, controller name: /login, action: POST, user name: unconnected, duration: 0ms.

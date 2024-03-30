@@ -8,10 +8,7 @@ using System.IO;
 using System;
 using todoList.Services;
 
-
-
 namespace todoList.Services;
-
 public class TodoListServices : ITodolistService
 {
     private List<Models.Task> tasks;
@@ -36,15 +33,15 @@ public class TodoListServices : ITodolistService
 
     public List<Models.Task> GetAll(int userID)
     {
-            return tasks.FindAll(task=>task.userID==userID);
+        return tasks.FindAll(task => task.userID == userID);
     }
     public Models.Task? GetById(int id)
     {
         return tasks?.FirstOrDefault(t => t?.Id == id);
     }
-    public Models.Task? GetById(int id,int userID)
+    public Models.Task? GetById(int id, int userID)
     {
-        return tasks?.FirstOrDefault(t => t?.Id == id&&t.userID==userID);
+        return tasks?.FirstOrDefault(t => t?.Id == id && t.userID == userID);
     }
 
     public int Add(Models.Task newTask)

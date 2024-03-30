@@ -11,31 +11,41 @@ h1 {
     margin-top: 20px;
 }
 
-#counter,h3 {
+#counter,
+h3 {
     font-size: larger;
     font-weight: bold;
     color: #666;
 }
 
-#counter,h3,h1,form {
+#counter,
+h3,
+h1,
+form {
     margin: 20px auto;
     text-align: center;
 }
 
-input[type="text"], input[type="password"], input[type="submit"],button {
+input[type="text"],
+input[type="password"],
+input[type="submit"],
+button {
     padding: 8px;
     margin: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 200px;
 }
-button,input[type="submit"] {
+
+button,
+input[type="submit"] {
     background-color: #4CAF50;
     color: white;
     cursor: pointer;
 }
 
-button:hover,input[type="submit"]:hover {
+button:hover,
+input[type="submit"]:hover {
     background-color: #45a049;
 }
 
@@ -51,7 +61,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
 }
