@@ -12,9 +12,13 @@
 <body>
     <h1>User Management</h1>
     <h3>Add</h3>
-    <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
+    <form action="javascript:void(0);" method="POST" onsubmit="AddUser()">
         <input type="text" id="add-name" placeholder="User Name">
         <input type="text" id="add-password" placeholder="password" />
+        <select id="userType">
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+          </select>
         <input type="submit" value="Add">
     </form>
 

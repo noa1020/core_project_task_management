@@ -29,6 +29,7 @@ form {
 input[type="text"],
 input[type="password"],
 input[type="submit"],
+select,
 button {
     padding: 8px;
     margin: 5px;

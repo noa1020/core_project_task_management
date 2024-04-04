@@ -10,18 +10,18 @@
 <body>
     <h1>To-do list</h1>
     <h3>Add</h3>
-    <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
+    <form action="javascript:void(0);" method="POST" onsubmit="AddTask()">
         <input type="text" id="add-name" placeholder="New task">
         <input type="submit" value="Add">
     </form>
     <div id="editForm">
         <h3>Edit</h3>
-        <form action="javascript:void(0);" onsubmit="updateItem()">
+        <form action="javascript:void(0);" onsubmit="UpdateTask()">
             <input type="hidden" id="edit-id">
             <input type="checkbox" id="edit-isDone">
             <input type="text" id="edit-name">
             <input type="submit" value="Save">
-            <a onclick="closeInput()" aria-label="Close">✖</a>
+            <a onclick="CloseInput()" aria-label="Close">✖</a>
         </form>
     </div>
     <p id="counter"></p>
@@ -40,13 +40,13 @@
 
     <div id="editDetailsPopup" class="popup">
         <div class="popup-content">
-            <span class="close" onclick="closePopup()">&times;</span>
+            <span class="close" onclick="ClosePopup()">&times;</span>
             <form>
                 <label for="username">Username:</label>
                 <input type="text" id="updateName">
                 <label for="password">Password:</label>
                 <input type="text" id="updatePassword">
-                <button onclick="saveDetails()">Save</button>
+                <button onclick="UpdateUser()">Save</button>
             </form>
         </div>
     </div>

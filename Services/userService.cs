@@ -8,15 +8,15 @@ namespace todoList.Services;
 
 public class userServices : IUserService
 {
-    private List<Models.User> Users;
-    private string fileName;
+    private readonly List<Models.User> Users;
+    private readonly string fileName;
 
     public userServices(/*IWebHostEnvinronment webHost*/)
     {
         this.fileName = Path.Combine(/*webHost.ContentRootPath*/ "Data", "user.json");
 
         using var jsonFile = File.OpenText(fileName);
-        Users = JsonSerializer.Deserialize<List<Models.User>>(jsonFile.ReadToEnd(),
+        Users = JsonSerializer.Deserialize<List<User>>(jsonFile.ReadToEnd(),
             new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -85,10 +85,9 @@ public class userServices : IUserService
         saveToFile();
         return true;
     }
-    public User Authentication(string name, string Password)
+    public User? Authentication(string name, string Password)
     {
         return Users.FirstOrDefault(t => t.Username == name && t.Password == Password);
-
     }
 
 }

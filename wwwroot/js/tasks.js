@@ -2,8 +2,8 @@ const uri = '/todoList';
 let tasks = [];
 const token = localStorage.getItem('token');
 
-//Fetches items from the server
-function getItems() {
+//Fetches tasks from the server
+function GetTasks() {
     fetch(uri, {
         method: 'GET',
         headers: {
@@ -16,13 +16,16 @@ function getItems() {
             throw new Error('Access denied. Please check your permissions.');
         }
         return response.json();
-    }).then(data => _displayItems(data))
-        .then(isManager())
-        .catch(error => alert('Unable to get items.', error));
+    }).then(data => DisplayTasks(data))
+        .then(IsManager())
+        .then(LoadingUserDetails())
+        .catch(error => alert('Unable to get tasks.' + error));
 }
-// Initial call to fetch items
-getItems();
 
+// Initial call to fetch tasks
+GetTasks();
+
+//Fetch current user from the server
 function LoadingUserDetails() {
     fetch('/myUser', {
         method: 'GET',
@@ -36,17 +39,14 @@ function LoadingUserDetails() {
             throw new Error('Problem retrieving user information.');
         }
         return response.json();
-    }).then(data => _displayUser(data))
-        .catch(error => alert('Unable to get user information.', error));
-
-
+    }).then(data => DisplayUser(data))
+        .catch(error => alert('Unable to get user information.' + error));
 }
-LoadingUserDetails()
 
-//Adds a new item to the todo list
-function addItem() {
+//Adds a new task to the todo list
+function AddTask() {
     const addNameTextbox = document.getElementById('add-name');
-    const item = {
+    const task = {
         isDone: false,
         name: addNameTextbox.value.trim()
     };
@@ -57,18 +57,16 @@ function addItem() {
             'Content-Type': 'application/json',
             'Authorization': token
         },
-        body: JSON.stringify(item)
+        body: JSON.stringify(task)
     }).then(response => response.json())
         .then(() => {
-            getItems();
+            GetTasks();
             addNameTextbox.value = '';
-        }).catch(error => alert('Unable to add item.', error));
+        }).catch(error => alert('Unable to add task.' + error));
 }
 
-/** Deletes an item from the todo list
- * @param {string} id - The id of the item to delete
- */
-function deleteItem(id) {
+// Deletes task from the todo list
+function DeleteTask(id) {
     fetch(`${uri}/${id}`, {
         method: 'DELETE',
         headers: {
@@ -76,107 +74,97 @@ function deleteItem(id) {
             'Content-Type': 'application/json',
             'Authorization': token
         },
-    }).then(() => getItems())
-        .catch(error => alert('Unable to delete item.', error));
+    }).then(() => GetTasks())
+        .catch(error => alert('Unable to delete task.' + error));
 }
 
-/** Displays an edit form for a specific item
- * @param {string} id - The id of the item to edit
- */
-function displayEditForm(id) {
-    const item = tasks.find(item => item.id === id);
-    document.getElementById('edit-name').value = item.name;
-    document.getElementById('edit-id').value = item.id;
-    document.getElementById('edit-isDone').checked = item.isDone == true;
+//Displays an edit form for a specific task
+function DisplayEditForm(id) {
+    const task = tasks.find(task => task.id === id);
+    document.getElementById('edit-name').value = task.name;
+    document.getElementById('edit-id').value = task.id;
+    document.getElementById('edit-isDone').checked = task.isDone == true;
     document.getElementById('editForm').style.display = 'block';
 }
 
-/** Updates an item by sending a PUT request to the server.
- * @returns {boolean} Returns false to prevent default form submission.
- */
-function updateItem() {
-    const itemId = document.getElementById('edit-id').value;
-    const item = {
-        id: parseInt(itemId, 10),
+//Updates an task by sending a PUT request to the server.
+function UpdateTask() {
+    const taskId = document.getElementById('edit-id').value;
+    const task = {
+        id: parseInt(taskId, 10),
         isDone: document.getElementById('edit-isDone').checked,
         name: document.getElementById('edit-name').value.trim()
     };
-    fetch(`${uri}/${itemId}`, {
+    fetch(`${uri}/${taskId}`, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': token
         },
-        body: JSON.stringify(item)
+        body: JSON.stringify(task)
     })
-        .then(() => getItems())
-        .catch(error => alert('Unable to update item.', error));
-    closeInput();
+        .then(() => GetTasks())
+        .catch(error => alert('Unable to update task.' + error));
+    CloseInput();
     return false;
 }
 
 //Hides the edit form.
-function closeInput() {
+function CloseInput() {
     document.getElementById('editForm').style.display = 'none';
 }
 
-/** Displays the count of items in the list.
- * @param {number} itemCount - The number of items in the list.
- */
-function _displayCount(itemCount) {
-    const name = (itemCount === 1) ? 'task' : 'task kinds';
-    document.getElementById('counter').innerText = `${itemCount} ${name}`;
+//Displays the count of tasks in the list.
+function DisplayCount(taskCount) {
+    const name = (taskCount === 1) ? 'task' : 'task kinds';
+    document.getElementById('counter').innerText = `${taskCount} ${name}`;
 }
 
-/** Displays the items in the list.
- * @param {Array} data - The array of items to display.
- */
-function _displayItems(data) {
+/// Displays the taska in the list.
+function DisplayTasks(tasks_list) {
     const tBody = document.getElementById('tasks');
     tBody.innerHTML = '';
-    _displayCount(data.length);
+    DisplayCount(tasks_list.length);
     const button = document.createElement('button');
-    data.forEach(item => {
+    tasks_list.forEach(task => {
         let isDoneCheckbox = document.createElement('input');
         isDoneCheckbox.type = 'checkbox';
         isDoneCheckbox.disabled = true;
-        isDoneCheckbox.checked = item.isDone;
+        isDoneCheckbox.checked = task.isDone;
         let editButton = button.cloneNode(false);
         editButton.innerText = 'Edit';
         editButton.addEventListener('click', () => {
-            displayEditForm(item.id);
+            DisplayEditForm(task.id);
         });
         let deleteButton = button.cloneNode(false);
         deleteButton.innerText = 'Delete';
-        deleteButton.setAttribute('onclick', `deleteItem(${item.id})`);
+        deleteButton.setAttribute('onclick', `DeleteTask(${task.id})`);
         let tr = tBody.insertRow();
         let td1 = tr.insertCell(0);
         td1.appendChild(isDoneCheckbox);
         let td2 = tr.insertCell(1);
-        let textNode = document.createTextNode(item.name);
+        let textNode = document.createTextNode(task.name);
         td2.appendChild(textNode);
         let td3 = tr.insertCell(2);
         td3.appendChild(editButton);
         let td4 = tr.insertCell(3);
         td4.appendChild(deleteButton);
     });
-    tasks = data;
+    tasks = tasks_list;
 }
 
 //Function to check if the user is a manager and display management button if user id is '1'.
-function isManager() {
+function IsManager() {
     const tokenParts = token.split('.');
-    const userId = JSON.parse(atob(tokenParts[1])).id;
-    if (userId === '1') {
+    const type = JSON.parse(atob(tokenParts[1])).type;
+    if (type === 'Admin') {
         document.getElementById('managementButton').style.display = 'block';
     }
 }
 
-/** Function to display user details in the update form.
- * @param {Object} user - User object containing username and password.
-*/
-function _displayUser(user) {
+//Function to display user details in the update form.
+function DisplayUser(user) {
     updateName.value = user.username;
     updatePassword.value = user.password;
 }
@@ -187,13 +175,13 @@ document.getElementById('editDetailsButton').addEventListener('click', function 
 });
 
 // Function to close the edit details popup.
-function closePopup() {
+function ClosePopup() {
     document.getElementById('editDetailsPopup').style.display = 'none';
 }
 
 // Function to save user details by sending PUT request to server.
-function saveDetails() {
-    const item = {
+function UpdateUser() {
+    const user = {
         password: updatePassword.value.trim(),
         username: updateName.value.trim()
     };
@@ -204,10 +192,9 @@ function saveDetails() {
             'Content-Type': 'application/json',
             'Authorization': token
         },
-        body: JSON.stringify(item)
-    }).then(response => response.json())
-        .then(() => {
-            _displayUser();
-        }).catch(error => alert('Unable to change user details.', error));
-    closePopup();
+        body: JSON.stringify(user)
+    }).then(() => {
+            DisplayUser(user);
+        }).catch(error => alert('Unable to change user details.' + error));
+    ClosePopup();
 }

@@ -13,12 +13,12 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
 
     [HttpGet]
     [Authorize(Policy = "User")]
-    public ActionResult<List<todoList.Models.Task>> GetAll()
+    public  ActionResult<List<todoList.Models.Task>> GetAll()
     {
         var id = User.FindFirst("id")?.Value;
         if (id is null)
             return NotFound();
-        return todolistService.GetAll(Convert.ToInt32(id));
+        return  todolistService.GetAll(Convert.ToInt32(id));
     }
 
 
@@ -42,7 +42,7 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
         var userID = User.FindFirst("id")?.Value;
         if (userID is null)
             return NotFound();
-        newTask.userID = Convert.ToInt32(userID);
+        newTask.UserID = Convert.ToInt32(userID);
         todolistService.Add(newTask);
         return CreatedAtAction(nameof(Create), new { id = newTask.Id }, newTask);
     }
@@ -62,7 +62,7 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
         {
             return NotFound();
         }
-        newTask.userID = Convert.ToInt32(userID);
+        newTask.UserID = Convert.ToInt32(userID);
         todolistService.Update(newTask.Id, newTask);
         return NoContent();
     }

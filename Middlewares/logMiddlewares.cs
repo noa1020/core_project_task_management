@@ -19,19 +19,24 @@ public class MyLogMiddleware
         var sw = new Stopwatch();
         sw.Start();
         await next.Invoke(c);
-        WriteToFile($" date: {DateTime.Now.ToShortDateString()}, beginning time: {DateTime.Now.TimeOfDay}, controller name: {c.Request.Path}, action: {c.Request.Method},"
+        await WriteToFile($" date: {DateTime.Now.ToShortDateString()}, beginning time: {DateTime.Now.TimeOfDay}, controller name: {c.Request.Path}, action: {c.Request.Method},"
          + $" user name: {c.User?.FindFirst("userId")?.Value ?? "unconnected"},"
           +$" duration: {sw.ElapsedMilliseconds}ms.");
 
     }
 
-    private void WriteToFile(string logMessage)
+private async Task<bool> WriteToFile(string logMessage)
+{
+    string filePath = "log.txt";
+    using (FileStream fileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
     {
-        using(StreamWriter sw = File.AppendText("log.txt"))
+        using (StreamWriter streamWriter = new StreamWriter(fileStream))
         {
-            sw.WriteLine(logMessage);
+            await streamWriter.WriteLineAsync(logMessage);
         }
     }
+    return true;
+}
 }
 
 public static partial class MiddlewareExtensions

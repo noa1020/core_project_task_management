@@ -11,19 +11,31 @@
 <body>
 
     <div class="container">
-        <form id="loginForm" action="javascript:void(0);" onsubmit="login()">
+        <form id="loginForm" action="javascript:void(0);" onsubmit="saveDetails()">
             <h1>Sign In</h1>
             <input id="signInName" type="text" placeholder="Enter name" required><br>
             <input id="signInPassword" type="password" placeholder="Enter Password" required><br>
             <button id="submitSignIn" type="submit">Sign In</button><br>
         </form>
-        <button class="google-btn" onclick="connectWithGoogle()">Connect with Google</button>
-        <button id="postmanButton" onclick="openPostman()">Open Postman</button>
-
+        <div id="g_id_onload" data-client_id="911144850190-9ko104q9kcc8kb2apqdd6miiu9chvjao.apps.googleusercontent.com"
+            data-callback="handleCredentialResponse">
+        </div>
+        <div class="postman-run-button" data-postman-action="collection/fork" data-postman-visibility="public"
+            data-postman-var-1="29786284-0232a9e3-8a57-4f71-8b61-0a3552c781e1"
+            data-postman-collection-url="entityId=29786284-0232a9e3-8a57-4f71-8b61-0a3552c781e1&entityType=collection&workspaceId=5a971a20-ae57-4daa-a295-17d4c459674b">
+        </div>
     </div>
-
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="js/login.js"></script>
-
+    <script type="text/javascript">
+        (function (p, o, s, t, m, a, n) {
+            !p[s] && (p[s] = function () { (p[t] || (p[t] = [])).push(arguments); });
+            !o.getElementById(s + t) && o.getElementsByTagName("head")[0].appendChild((
+                (n = o.createElement("script")),
+                (n.id = s + t), (n.async = 1), (n.src = m), n
+            ));
+        }(window, document, "_pm", "PostmanRunObject", "https://run.pstmn.io/button.js"));
+    </script>
 </body>
 
 </html>

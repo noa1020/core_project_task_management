@@ -7,7 +7,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const token = localStorage.getItem('token');
 
 //Function to fetch all users data from server.
-function getItems() {
+function GetUsers() {
     fetch('/allUsers', {
         method: 'GET',
         headers: {
@@ -22,23 +22,23 @@ function getItems() {
             }
             return response.json();
         })
-        .then(data => _displayItems(data))
-        .catch(error => alert('Unable to get items.', error));
+        .then(data => DisplayUsers(data))
+        .catch(error => alert('Unable to get users.', error));
 }
 
-// Call getItems function to fetch user data on page load.
-getItems();
+// Call getUsers function to fetch user data on page load.
+GetUsers();
 
-//Function to add a new user item to the database.
-function addItem() {
+//Function to add a new user to the database.
+function AddUser() {
     const addNameTextbox = document.getElementById('add-name');
     const addPasswordTextBox = document.getElementById('add-password');
-
-    const item = {
+    const addStatusTextBox = document.getElementById('userType');
+    const user = {
         password: addPasswordTextBox.value.trim(),
-        username: addNameTextbox.value.trim()
+        username: addNameTextbox.value.trim(),
+        status: addStatusTextBox.value.trim()=="Admin"?0:1
     };
-
     fetch(uri, {
         method: 'POST',
         headers: {
@@ -46,21 +46,19 @@ function addItem() {
             'Content-Type': 'application/json',
             'Authorization': token
         },
-        body: JSON.stringify(item)
+        body: JSON.stringify(user)
     })
         .then(response => response.json())
         .then(() => {
-            getItems();
+            GetUsers();
             addNameTextbox.value = '';
             addPasswordTextBox.value = '';
         })
-        .catch(error => alert('Unable to add item.', error));
+        .catch(error => alert('Unable to add user.', error));
 }
 
-/** Function to delete a user item from the database.
- * @param {number} id - ID of the user item to delete.
- */
-function deleteItem(id) {
+// Function to delete user from the database.
+function DeleteUser(id) {
     fetch(`${uri}/${id}`, {
         method: 'DELETE',
         headers: {
@@ -69,43 +67,39 @@ function deleteItem(id) {
             'Authorization': token
         },
     })
-        .then(() => getItems())
-        .catch(error => alert('Unable to delete item.', error));
+        .then(() => GetUsers())
+        .catch(error => alert('Unable to delete user.', error));
 }
 
-/** Function to display count of user items on the page.
- * @param {number} itemCount - Number of user items.
- */
-function _displayCount(itemCount) {
-    const name = (itemCount === 1) ? 'user' : 'users';
-    document.getElementById('counter').innerText = `${itemCount} ${name}`;
+//Function to display count of user on the page.
+function DisplayCount(userCount) {
+    const name = (userCount === 1) ? 'user' : 'users';
+    document.getElementById('counter').innerText = `${userCount} ${name}`;
 }
 
-/** Function to display user items on the page.
- * @param {Array} data - Array of user data to display.
- */
-function _displayItems(data) {
+// Function to display user users on the page.
+function DisplayUsers(users_list) {
     const tBody = document.getElementById('users');
     tBody.innerHTML = '';
-    _displayCount(data.length);
+    DisplayCount(users_list.length);
     const button = document.createElement('button');
-    data.forEach(item => {
+    users_list.forEach(user => {
         let deleteButton = button.cloneNode(false);
         deleteButton.innerText = 'Delete';
-        deleteButton.setAttribute('onclick', `deleteItem(${item.id})`);
+        deleteButton.setAttribute('onclick', `DeleteUser(${user.id})`);
         let tr = tBody.insertRow();
         let td1 = tr.insertCell(0);
-        let userIdTextNode = document.createTextNode(item.id);
+        let userIdTextNode = document.createTextNode(user.id);
         td1.appendChild(userIdTextNode);
         let td2 = tr.insertCell(1);
-        let textNode = document.createTextNode(item.username);
+        let textNode = document.createTextNode(user.username);
         td2.appendChild(textNode);
         let td3 = tr.insertCell(2);
-        let passwordTextNode = document.createTextNode(item.password);
+        let passwordTextNode = document.createTextNode(user.password);
         td3.appendChild(passwordTextNode);
         let td4 = tr.insertCell(3);
         td4.appendChild(deleteButton);
     });
 
-    users = data;
+    users = users_list;
 }

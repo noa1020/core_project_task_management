@@ -26,14 +26,14 @@ public class TodoListServices : ITodolistService
             });
     }
 
-    private void saveToFile()
+    private void SaveToFile()
     {
         File.WriteAllText(fileName, JsonSerializer.Serialize(tasks));
     }
 
     public List<Models.Task> GetAll(int userID)
     {
-        return tasks.FindAll(task => task.userID == userID);
+        return tasks.FindAll(task => task.UserID == userID);
     }
     public Models.Task? GetById(int id)
     {
@@ -41,7 +41,7 @@ public class TodoListServices : ITodolistService
     }
     public Models.Task? GetById(int id, int userID)
     {
-        return tasks?.FirstOrDefault(t => t?.Id == id && t.userID == userID);
+        return tasks?.FirstOrDefault(t => t?.Id == id && t.UserID == userID);
     }
 
     public int Add(Models.Task newTask)
@@ -58,7 +58,7 @@ public class TodoListServices : ITodolistService
         }
 
         tasks.Add(newTask);
-        saveToFile();
+        SaveToFile();
 
         return newTask.Id;
     }
@@ -77,12 +77,11 @@ public class TodoListServices : ITodolistService
             return false;
 
         tasks[index] = newTask;
-        saveToFile();
+        SaveToFile();
 
 
         return true;
     }
-
 
     public bool Delete(int id)
     {
@@ -95,14 +94,14 @@ public class TodoListServices : ITodolistService
             return false;
 
         tasks.RemoveAt(index);
-        saveToFile();
+        SaveToFile();
         return true;
     }
+
     public void DeleteByUserId(int userID)
     {
-        tasks.RemoveAll(task => task.userID == userID);
+        tasks.RemoveAll(task => task.UserID == userID);
     }
-
 }
 public static class TaskUtils
 {

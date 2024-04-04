@@ -16,22 +16,12 @@ public class UserController(IUserService userService, ITodolistService todolistS
     [Route("/login")]
     public ActionResult<String> Login(string name, string password)
     {
-        if (name == "admin" && password == "1234")
-        {
-            var claims = new List<Claim>
-            {
-                new Claim("type", "Admin"),
-                new Claim("id","1"),
-            };
-            var token = TokenService.GetToken(claims);
-            return new OkObjectResult(TokenService.WriteToken(token));
-        }
-        User user = userService.Authentication(name, password);
+        User? user = userService.Authentication(name, password);
         if (user != default)
         {
             var claims = new List<Claim>
             {
-                new Claim("type", "User"),
+                new Claim("type", user.Status.ToString()),
                 new Claim("id", user.Id.ToString()),
             };
             var token = TokenService.GetToken(claims);

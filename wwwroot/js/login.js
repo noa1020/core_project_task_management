@@ -1,15 +1,19 @@
-/**
- * Function to redirect user to Google sign-in page.
- */
-function connectWithGoogle() {
-    window.location.href = "https://accounts.google.com";
+// Function to check if a user is already logged in and redirect to tasks page.
+function CheckUser() {
+    const token = localStorage.getItem('token');
+    if (token) {
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (decodedToken.exp > currentTime)
+            window.location.href = "./html/tasks.html";
+    }
 }
 
-/**
- * Function to handle authentication token received from login.
- * @param {string|Object} token - Authentication token received from server.
- */
-function handleAuthToken(token) {
+// Check if user is already logged in on page load.
+CheckUser();
+
+//Function to handle authentication token received from login.
+function HandleAuthToken(token) {
     if (typeof token === 'object') {
         alert("Unexpected response. Please try again.");
     } else {
@@ -18,12 +22,8 @@ function handleAuthToken(token) {
     }
 }
 
-/**
- * Function to handle user login by sending credentials to server.
- */
-function login() {
-    const name = document.getElementById("signInName").value.trim();
-    const password = document.getElementById("signInPassword").value.trim();
+// Function to handle user login by sending credentials to server.
+function Login(name, password) {
     fetch(`/login?name=${name}&password=${password}`, {
         method: 'POST',
         headers: {
@@ -38,25 +38,44 @@ function login() {
         } else {
             alert('Error occurred while logging in');
         }
-    }).then(response => handleAuthToken(response))
+    }).then(response => HandleAuthToken(response))
         .catch(error => {
-            alert('Error during login:', error);
+            alert('Error during login: ' + error);
         });
 }
 
-/**
- * Function to check if a user is already logged in and redirect to tasks page.
- */
-function checkUser() {
-    if (localStorage.getItem("token")) {
-        window.location.href = "./html/tasks.html";
+//save name and password after login and send to login function
+saveDetails = () => {
+    const password = document.getElementById('signInPassword').value;
+    const name = document.getElementById('signInName').value;
+    Login(name, password)
+}
+
+//handle the google button
+function handleCredentialResponse(response) {
+    if (response.credential) {
+        var idToken = response.credential;
+        var decodedToken = parseJwt(idToken);
+        var userId = decodedToken.sub; // User ID
+        var userName = decodedToken.name; // User Name
+
+        Login(userName, userId);
+    } else {
+        console.error('Google Sign-In was cancelled.');
     }
 }
-//open function with the api call to admin token
-function openPostman() {
-    window.location.href = 'https://crimson-capsule-239063.postman.co/workspace/New-Team-Workspace~19cbe971-1eae-455d-b8b6-2cf42d9e21c0/request/29786284-690d505b-1b2f-4fab-8aec-3f04e64978ac?ctx=documentation';
+
+function parseJwt(token) {
+    try {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+    } catch (error) {
+        console.error('Error parsing JWT token:', error);
+        return null;
+    }
 }
-
-
-// Check if user is already logged in on page load.
-checkUser();
