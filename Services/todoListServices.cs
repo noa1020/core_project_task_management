@@ -26,24 +26,31 @@ public class TodoListServices : ITodolistService
             });
     }
 
+    //Save changes in the json tasks file.
     private void SaveToFile()
     {
         File.WriteAllText(fileName, JsonSerializer.Serialize(tasks));
     }
 
+    //Get all tasks.
     public List<Models.Task> GetAll(int userID)
     {
         return tasks.FindAll(task => task.UserID == userID);
     }
+
+    //Get task by id.
     public Models.Task? GetById(int id)
     {
         return tasks?.FirstOrDefault(t => t?.Id == id);
     }
+
+    //get task by task id and user id.
     public Models.Task? GetById(int id, int userID)
     {
         return tasks?.FirstOrDefault(t => t?.Id == id && t.UserID == userID);
     }
 
+    //Add new task.
     public int Add(Models.Task newTask)
     {
         if (tasks.Count == 0)
@@ -63,6 +70,7 @@ public class TodoListServices : ITodolistService
         return newTask.Id;
     }
 
+    //Update task.
     public bool Update(int id, Models.Task newTask)
     {
         if (id != newTask.Id)
@@ -83,6 +91,7 @@ public class TodoListServices : ITodolistService
         return true;
     }
 
+    //Delete task.
     public bool Delete(int id)
     {
         var existingTask = GetById(id);
@@ -98,6 +107,7 @@ public class TodoListServices : ITodolistService
         return true;
     }
 
+    //Delete all tasks of a particular user.
     public void DeleteByUserId(int userID)
     {
         tasks.RemoveAll(task => task.UserID == userID);

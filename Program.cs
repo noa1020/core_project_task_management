@@ -26,7 +26,6 @@ builder.Services.AddAuthorization(cfg =>
 builder.Services.AddControllers();
 
 // Add Swagger
-
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo List", Version = "v1" });

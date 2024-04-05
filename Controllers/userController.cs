@@ -14,6 +14,7 @@ public class UserController(IUserService userService, ITodolistService todolistS
     readonly IUserService userService = userService;
     [HttpPost]
     [Route("/login")]
+    //Login by name and password, returns token
     public ActionResult<String> Login(string name, string password)
     {
         User? user = userService.Authentication(name, password);
@@ -33,13 +34,14 @@ public class UserController(IUserService userService, ITodolistService todolistS
     [HttpGet]
     [Route("/allUsers")]
     [Authorize(Policy = "Admin")]
+    //Get all users.
     public ActionResult<List<todoList.Models.User>> GetAll() =>
             userService.GetAll();
-
 
     [HttpGet]
     [Route("/myUser")]
     [Authorize(Policy = "User")]
+    //Get user by id.
     public ActionResult<todoList.Models.User> GetById()
     {
         var userID = User.FindFirst("id")?.Value;
@@ -53,6 +55,7 @@ public class UserController(IUserService userService, ITodolistService todolistS
 
     [HttpPost]
     [Authorize(Policy = "Admin")]
+    //Add new user.
     public IActionResult Create(todoList.Models.User newUser)
     {
         if (newUser is null)
@@ -65,6 +68,7 @@ public class UserController(IUserService userService, ITodolistService todolistS
 
     [HttpPut]
     [Authorize(Policy = "User")]
+    //Update user.
     public IActionResult Update(User userToUpdate)
     {
         if (userToUpdate is null)
@@ -88,6 +92,7 @@ public class UserController(IUserService userService, ITodolistService todolistS
 
     [HttpDelete("{id}")]
     [Authorize(Policy = "Admin")]
+    //Delete user.
     public IActionResult Delete(int id)
     {
         var user = userService.GetById(id);

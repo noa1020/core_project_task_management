@@ -13,17 +13,19 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
 
     [HttpGet]
     [Authorize(Policy = "User")]
-    public  ActionResult<List<todoList.Models.Task>> GetAll()
+    //Get all tasks.
+    public ActionResult<List<todoList.Models.Task>> GetAll()
     {
         var id = User.FindFirst("id")?.Value;
         if (id is null)
             return NotFound();
-        return  todolistService.GetAll(Convert.ToInt32(id));
+        return todolistService.GetAll(Convert.ToInt32(id));
     }
 
 
     [HttpGet("{id}")]
     [Authorize(Policy = "User")]
+    //Get task by id.
     public ActionResult<todoList.Models.Task> GetById(int id)
     {
         var userID = User.FindFirst("id")?.Value;
@@ -37,6 +39,7 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
 
     [HttpPost]
     [Authorize(Policy = "User")]
+    //Add net=w task.
     public IActionResult Create(todoList.Models.Task newTask)
     {
         var userID = User.FindFirst("id")?.Value;
@@ -49,7 +52,7 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
 
     [HttpPut("{id}")]
     [Authorize(Policy = "User")]
-
+    //Update task.
     public IActionResult Update(int id, todoList.Models.Task newTask)
     {
         if (id != newTask.Id)
@@ -69,7 +72,7 @@ public class TodoListController(ITodolistService todolistService) : ControllerBa
 
     [HttpDelete("{id}")]
     [Authorize(Policy = "User")]
-
+    //Delete task.
     public IActionResult Delete(int id)
     {
         var userID = User.FindFirst("id")?.Value;
