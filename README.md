@@ -61,20 +61,35 @@ The system ensures data security and integrity by using JSON files to store both
 
 ## Screenshots
 
+
 ### Login page:
+
+
 <img src="https://github.com/noa1020/core_project_task_management/assets/146897162/1a96beee-4718-4884-87bd-a1a647402836" alt="Homepage" width="900" style="border:1px solid black">
 
+
 ### Tasks page:
+
+
 <img src="https://github.com/noa1020/core_project_task_management/assets/146897162/8aea647f-b792-4e50-9ffc-52114a87179d" alt="Homepage" width="900" style="border:1px solid black">
 
+
 ### Edit task:
+
+
 <img src="https://github.com/noa1020/core_project_task_management/assets/146897162/2fa7b862-0b31-4431-81f1-56715f248ce8" alt="Homepage" width="900" style="border:1px solid black">
 
+
 ### Update personal details:
+
+
 <img src="https://github.com/noa1020/core_project_task_management/assets/146897162/4124aadf-e748-4c57-abc5-c61fa0b78d98" alt="Homepage" width="900" style="border:1px solid black">
 
+
 ### Management page:
-<img src="https://github.com/noa1020/core_project_task_management/assets/146897162/be4163d8-8227-4753-890c-a2b2f6e9b6f8" alt="Homepage" width="900" style="border:1px solid black">
+
+
+<img src="https://github.com/noa1020/core_project_task_management/assets/146897162/7eedc5c6-848b-43ab-b9fd-94e13cf07406" alt="Homepage" width="900" style="border:1px solid black">
 
 
 ## Contact Us
