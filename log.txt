@@ -664,3 +664,13 @@
  date: 04/04/2024, beginning time: 20:33:39.6079857, controller name: /todoList, action: GET, user name: unconnected, duration: 0ms.
  date: 04/04/2024, beginning time: 20:33:39.6079859, controller name: /myUser, action: GET, user name: unconnected, duration: 0ms.
  date: 04/04/2024, beginning time: 20:33:51.3111131, controller name: /todoList, action: GET, user name: unconnected, duration: 0ms.
+ date: 04/05/2024, beginning time: 11:58:28.1792596, controller name: /favicon.ico, action: GET, user name: unconnected, duration: 4ms.
+ date: 04/05/2024, beginning time: 11:58:28.2904457, controller name: /todoList, action: GET, user name: unconnected, duration: 46ms.
+ date: 04/05/2024, beginning time: 12:05:01.0388748, controller name: /todoList, action: GET, user name: unconnected, duration: 0ms.
+ date: 04/05/2024, beginning time: 12:05:16.3973496, controller name: /myUser, action: GET, user name: unconnected, duration: 0ms.
+ date: 04/05/2024, beginning time: 12:06:15.3647005, controller name: /todoList, action: GET, user name: unconnected, duration: 0ms.
+ date: 04/05/2024, beginning time: 12:06:22.2160272, controller name: /myUser, action: GET, user name: unconnected, duration: 0ms.
+ date: 04/05/2024, beginning time: 12:07:21.1458827, controller name: /favicon.ico, action: GET, user name: unconnected, duration: 0ms.
+ date: 04/05/2024, beginning time: 12:07:53.5530977, controller name: /todoList, action: GET, user name: unconnected, duration: 0ms.
+ date: 04/05/2024, beginning time: 12:07:55.5895151, controller name: /myUser, action: GET, user name: unconnected, duration: 0ms.
+ date: 04/05/2024, beginning time: 12:07:56.8580850, controller name: /favicon.ico, action: GET, user name: unconnected, duration: 0ms.
